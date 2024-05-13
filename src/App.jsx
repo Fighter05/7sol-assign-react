@@ -41,7 +41,7 @@ const App = () => {
   return (
     <div>
       <div className="flex gap-4 h-[700px] m-4">
-        <div className="flex flex-col gap-2 w-full">
+        <div className="w-full">
           {items.map((item, index) => (
             <ItemButton
               key={index}
@@ -50,46 +50,6 @@ const App = () => {
             />
           ))}
         </div>
-        {/* <div
-          className="w-full border border-slate-300"
-          onClick={removeFromColumn}
-        >
-          <h1 className="font-semibold text-center bg-slate-300 p-2">Fruit</h1>
-          <div className="p-2">
-            {columnItems.map((i, index) =>
-              i.type === "Fruit" ? (
-                <button
-                  key={index}
-                  onClick={(e) => moveToMainList(i, e)}
-                  className="border border-slate-300 hover:bg-slate-200 p-2 font-semibold w-full mb-2"
-                >
-                  {i.name}
-                </button>
-              ) : null
-            )}
-          </div>
-        </div>
-        <div
-          className="w-full border border-slate-300"
-          onClick={removeFromColumn}
-        >
-          <h1 className="font-semibold text-center bg-slate-300 p-2">
-            Vegetable
-          </h1>
-          <div className="p-2">
-            {columnItems.map((i, index) =>
-              i.type === "Vegetable" ? (
-                <button
-                  key={index}
-                  onClick={(e) => moveToMainList(i, e)}
-                  className="border border-slate-300 hover:bg-slate-200 p-2 font-semibold w-full mb-2"
-                >
-                  {i.name}
-                </button>
-              ) : null
-            )}
-          </div>
-        </div> */}
         <Column
           titleType="Fruit"
           columnItems={columnItems}
