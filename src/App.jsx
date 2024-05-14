@@ -1,9 +1,8 @@
 import { useState } from "react";
 import ItemButton from "./components/ItemButton";
-import Column from "./components/Column";
 
 const App = () => {
-  const [items, setItems] = useState([
+  const [mainList, setMainList] = useState([
     { type: "Fruit", name: "Apple" },
     { type: "Vegetable", name: "Broccoli" },
     { type: "Vegetable", name: "Mushroom" },
@@ -17,24 +16,24 @@ const App = () => {
     { type: "Vegetable", name: "Carrot" },
   ]);
 
-  const [columnItems, setColumnItems] = useState([]);
+  const [fruitList, setFruitList] = useState([]);
+  const [vegetableList, setVegetableList] = useState([]);
 
-  const moveToColumn = (item) => {
-    setColumnItems([...columnItems, item]);
-    setItems(items.filter((i) => i.name !== item.name));
+  const moveToMainList = (item) => {
+    setMainList([...mainList, item]);
+    if (item.type === "Fruit") {
+      setFruitList(fruitList.filter((i) => i.name !== item.name));
+    } else {
+      setVegetableList(vegetableList.filter((i) => i.name !== item.name));
+    }
   };
 
-  const moveToMainList = (item, e) => {
-    e.stopPropagation();
-    setColumnItems(columnItems.filter((i) => i.name !== item.name));
-    setItems([...items, item]);
-  };
-
-  const removeFromColumn = () => {
-    if (columnItems.length > 0) {
-      const removedItem = columnItems.pop();
-      setColumnItems([...columnItems]);
-      setItems([...items, removedItem]);
+  const moveItem = (item) => {
+    setMainList(mainList.filter((i) => i.name !== item.name));
+    if (item.type === "Fruit") {
+      setFruitList([...fruitList, item]);
+    } else {
+      setVegetableList([...vegetableList, item]);
     }
   };
 
@@ -42,26 +41,43 @@ const App = () => {
     <div>
       <div className="flex gap-4 h-[700px] m-4">
         <div className="w-full">
-          {items.map((item, index) => (
-            <ItemButton
-              key={index}
-              item={item}
-              onClick={() => moveToColumn(item)}
-            />
+          {mainList.map((item) => (
+            <button
+              className="border border-slate-300 hover:bg-slate-200 p-2 font-semibold w-full mb-2"
+              key={item.name}
+              onClick={() => moveItem(item)}
+            >
+              {item.name}
+            </button>
           ))}
         </div>
-        <Column
-          titleType="Fruit"
-          columnItems={columnItems}
-          removeFromColumn={removeFromColumn}
-          moveToMainList={moveToMainList}
-        />
-        <Column
-          titleType="Vegetable"
-          columnItems={columnItems}
-          removeFromColumn={removeFromColumn}
-          moveToMainList={moveToMainList}
-        />
+        <div className="w-full border border-slate-300">
+          <h1 className="font-semibold text-center bg-slate-300 p-2">Fruit</h1>
+          <div className="p-2">
+            {fruitList.map((item) => (
+              <ItemButton
+                key={item.name}
+                item={item}
+                moveToMainList={moveToMainList}
+                removeItem={moveToMainList}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="w-full border border-slate-300">
+          <h1 className="font-semibold text-center bg-slate-300 p-2">
+            Vegetable
+          </h1>
+          <div className="p-2">
+            {vegetableList.map((item) => (
+              <ItemButton
+                key={item.name}
+                item={item}
+                moveToMainList={moveToMainList}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
